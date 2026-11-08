@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="ha">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>AMINU DATA & AIRTIME</title>
+<style>
+:root{--navy:#102b46;--green:#087f5b;--bg:#f3f6f8;--muted:#637381}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);font-family:Arial,sans-serif;color:#172b3a}
+header{background:var(--navy);color:white;padding:24px 18px 30px;border-radius:0 0 24px 24px}
+header small{opacity:.8}header h1{font-size:22px;margin:8px 0}
+.wrap{max-width:520px;margin:auto;padding:0 14px 28px}
+.balance{background:white;margin:-16px 0 18px;padding:18px;border-radius:16px;box-shadow:0 5px 18px #102b4612}
+.balance strong{font-size:27px;display:block;margin:7px 0}
+.row{display:flex;gap:10px}.row>*{flex:1}
+button,select,input{font:inherit}button{border:0;border-radius:12px;padding:13px 15px;background:var(--green);color:white;font-weight:700;cursor:pointer;min-height:46px}
+button.secondary{background:#e7f2ee;color:var(--green)}button.dark{background:var(--navy)}
+h2{font-size:17px;margin:20px 0 10px}
+.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+.tile,.panel{background:white;border-radius:15px;padding:15px;border:1px solid #e8edf0}
+.tile b{display:block;margin:8px 0 4px}.tile span,.muted{color:var(--muted);font-size:13px}
+form{display:grid;gap:11px}label{font-size:13px;font-weight:700;color:#405261}
+input,select{width:100%;padding:13px;border:1px solid #d7e0e6;border-radius:10px;background:white;color:#172b3a}
+.notice{background:#fff7df;border:1px solid #f1dfa8;color:#715313;padding:12px;border-radius:12px;font-size:13px;line-height:1.45}
+#message{margin-top:10px;font-size:13px;color:var(--green);font-weight:700}
+nav{display:flex;gap:8px;margin:16px 0;overflow:auto}
+nav button{white-space:nowrap;padding:10px 13px;background:#e3eaf0;color:var(--navy)}
+nav button.active{background:var(--navy);color:white}
+.page{display:none}.page.active{display:block}
+.tx{display:flex;justify-content:space-between;border-bottom:1px solid #edf0f2;padding:12px 0;font-size:14px}
+footer{text-align:center;color:var(--muted);font-size:12px;padding:22px}
+</style>
+</head>
+<body>
+<header><div class="wrap"><small>SAUKI DA SAURI • AMINTACCE</small><h1>AMINU DATA & AIRTIME</h1><div>Data, Airtime da kati cikin sauƙi.</div></div></header>
+<main class="wrap">
+<section class="balance"><span class="muted">Wallet balance (demo)</span><strong id="balance">₦0.00</strong><div class="row"><button class="secondary" onclick="showPage('fund')">Saka kuɗi</button><button class="dark" onclick="showPage('history')">Tarihin ciniki</button></div></section>
+<nav>
+<button class="active" data-page="home" onclick="showPage('home')">Gida</button>
+<button data-page="data" onclick="showPage('data')">Data</button>
+<button data-page="airtime" onclick="showPage('airtime')">Airtime</button>
+<button data-page="fund" onclick="showPage('fund')">Wallet</button>
+<button data-page="history" onclick="showPage('history')">Tarihi</button>
+</nav>
+<section id="home" class="page active">
+<h2>Zaɓi sabis</h2><div class="grid">
+<div class="tile" onclick="showPage('data')">📶<b>Buy Data</b><span>MTN • Airtel • Glo • 9mobile</span></div>
+<div class="tile" onclick="showPage('airtime')">📱<b>Buy Airtime</b><span>Recharge duk networks</span></div>
+<div class="tile" onclick="showPage('fund')">💳<b>Fund Wallet</b><span>Ƙara kuɗi a wallet</span></div>
+<div class="tile" onclick="showPage('history')">🧾<b>Transactions</b><span>Duba cinikayyar baya</span></div>
+</div>
+<h2>Sanarwa</h2><div class="notice">Wannan samfurin gwaji ne kawai. Ba ya aika data ko airtime na gaske, kuma ba ya karɓar kuɗi. Za a haɗa shi da VTU API da ingantaccen tsarin biyan kuɗi kafin fara kasuwanci.</div>
+</section>
+<section id="data" class="page">
+<h2>Siyan Data</h2><div class="panel"><form id="dataForm">
+<label>Network<select id="dnet"><option>MTN</option><option>Airtel</option><option>Glo</option><option>9mobile</option></select></label>
+<label>Lambar waya<input id="dphone" inputmode="numeric" maxlength="11" placeholder="08012345678" required></label>
+<label>Tsarin data<select id="dplan"><option value="500">500MB — ₦500 (demo)</option><option value="1000">1GB — ₦1,000 (demo)</option><option value="2000">2GB — ₦2,000 (demo)</option><option value="5000">5GB — ₦5,000 (demo)</option></select></label>
+<button>Ci gaba (demo)</button></form><div id="dataMsg"></div></div>
+</section>
+<section id="airtime" class="page">
+<h2>Siyan Airtime</h2><div class="panel"><form id="airForm">
+<label>Network<select id="anet"><option>MTN</option><option>Airtel</option><option>Glo</option><option>9mobile</option></select></label>
+<label>Lambar waya<input id="aphone" inputmode="numeric" maxlength="11" placeholder="08012345678" required></label>
+<label>Adadin kuɗi (₦)<input id="amount" type="number" min="50" max="50000" placeholder="500" required></label>
+<button>Ci gaba (demo)</button></form><div id="airMsg"></div></div>
+</section>
+<section id="fund" class="page">
+<h2>Ƙara kuɗi a Wallet</h2><div class="panel"><p class="muted">Za a haɗa OPay payment gateway a matakin production.</p><div class="notice">Kada ka tura kuɗi zuwa kowane account saboda wannan demo ba ya karɓar kuɗi tukuna.</div><form id="fundForm" style="margin-top:14px"><label>Adadin kuɗi (₦)<input id="fundAmount" type="number" min="100" placeholder="1000" required></label><button>Gwada ƙara kuɗi (demo)</button></form><div id="fundMsg"></div></div>
+</section>
+<section id="history" class="page"><h2>Tarihin ciniki</h2><div class="panel" id="historyList"><p class="muted">Babu ciniki tukuna.</p></div></section>
+<footer>AMINU DATA & AIRTIME • Demo version</footer>
+</main>
+<script>
+let balance=0, transactions=[];
+function showPage(id){document.querySelectorAll('.page').forEach(p=>p.classList.toggle('active',p.id===id));document.querySelectorAll('nav button').forEach(b=>b.classList.toggle('active',b.dataset.page===id))}
+function addTx(label,amount){transactions.unshift({label,amount});document.getElementById('historyList').innerHTML=transactions.map(t=>`<div class="tx"><span>${t.label}</span><b>₦${t.amount.toLocaleString('en-NG')}</b></div>`).join('')||'<p class="muted">Babu ciniki tukuna.</p>'}
+function updateBalance(){document.getElementById('balance').textContent='₦'+balance.toLocaleString('en-NG',{minimumFractionDigits:2})}
+function validPhone(v){return /^0[789][01]\d{8}$/.test(v)}
+document.getElementById('fundForm').addEventListener('submit',e=>{e.preventDefault();let a=Number(document.getElementById('fundAmount').value);if(!Number.isFinite(a)||a<100){document.getElementById('fundMsg').textContent='Shigar da adadi daga ₦100 zuwa sama.';return}balance+=a;updateBalance();addTx('Wallet funding (demo)',a);document.getElementById('fundMsg').textContent='An ƙara kuɗi a demo wallet kawai.';e.target.reset()});
+document.getElementById('dataForm').addEventListener('submit',e=>{e.preventDefault();let phone=document.getElementById('dphone').value,price=Number(document.getElementById('dplan').value),net=document.getElementById('dnet').value;if(!validPhone(phone)){document.getElementById('dataMsg').textContent='Duba lambar waya, ka shigar da lamba 11 da ta dace.';return}if(balance<price){document.getElementById('dataMsg').textContent='Wallet bai da isasshen kuɗi. Wannan demo ne; gwada saka kuɗi.';return}balance-=price;updateBalance();addTx(net+' Data zuwa '+phone,price);document.getElementById('dataMsg').textContent='An yi gwajin oda. Ba a aika data ta gaske ba.';e.target.reset()});
+document.getElementById('airForm').addEventListener('submit',e=>{e.preventDefault();let phone=document.getElementById('aphone').value,a=Number(document.getElementById('amount').value),net=document.getElementById('anet').value;if(!validPhone(phone)){document.getElementById('airMsg').textContent='Duba lambar waya.';return}if(!Number.isFinite(a)||a<50||a>50000){document.getElementById('airMsg').textContent='Adadin ya kasance ₦50 zuwa ₦50,000.';return}if(balance<a){document.getElementById('airMsg').textContent='Wallet bai da isasshen kuɗi.';return}balance-=a;updateBalance();addTx(net+' Airtime zuwa '+phone,a);document.getElementById('airMsg').textContent='An yi gwajin oda. Ba a aika airtime na gaske ba.';e.target.reset()});
+</script>
+</body></html>
