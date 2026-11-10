@@ -1,18 +1,21 @@
-<!index.html>
+<!doctype html>
 <html lang="en">
 <head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>AMINU DATA & AIRTIME</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>AMINU DATA &amp; AIRTIME</title>
 <style>
 :root{--navy:#102b46;--green:#087f5b;--bg:#f3f6f8;--muted:#637381}
-*{box-sizing:border-box}body{margin:0;background:var(--bg);font-family:Arial,sans-serif;color:#172b3a}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);font-family:Arial,sans-serif;color:#172b3a}
 header{background:var(--navy);color:white;padding:24px 18px 30px;border-radius:0 0 24px 24px}
 header small{opacity:.8}header h1{font-size:22px;margin:8px 0}
 .wrap{max-width:520px;margin:auto;padding:0 14px 28px}
 .balance{background:white;margin:-16px 0 18px;padding:18px;border-radius:16px;box-shadow:0 5px 18px #102b4612}
 .balance strong{font-size:27px;display:block;margin:7px 0}
 .row{display:flex;gap:10px}.row>*{flex:1}
-button,select,input{font:inherit}button{border:0;border-radius:12px;padding:13px 15px;background:var(--green);color:white;font-weight:700;cursor:pointer;min-height:46px}
+button,select,input{font:inherit}
+button{border:0;border-radius:12px;padding:13px 15px;background:var(--green);color:white;font-weight:700;cursor:pointer;min-height:46px}
 button.secondary{background:#e7f2ee;color:var(--green)}button.dark{background:var(--navy)}
 h2{font-size:17px;margin:20px 0 10px}
 .grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
@@ -31,7 +34,7 @@ footer{text-align:center;color:var(--muted);font-size:12px;padding:22px}
 </style>
 </head>
 <body>
-<header><div class="wrap"><small>FAST • SIMPLE • RELIABLE</small><h1>AMINU DATA & AIRTIME</h1><div>Buy data and airtime with ease.</div></div></header>
+<header><div class="wrap"><small>FAST • SIMPLE • RELIABLE</small><h1>AMINU DATA &amp; AIRTIME</h1><div>Buy data and airtime with ease.</div></div></header>
 <main class="wrap">
 <section class="balance"><span class="muted">Wallet balance (demo)</span><strong id="balance">₦0.00</strong><div class="row"><button class="secondary" onclick="showPage('fund')">Fund Wallet</button><button class="dark" onclick="showPage('history')">Transaction History</button></div></section>
 <nav>
@@ -68,16 +71,49 @@ footer{text-align:center;color:var(--muted);font-size:12px;padding:22px}
 <h2>Fund Wallet</h2><div class="panel"><p class="muted">The OPay payment gateway will be integrated for the production version.</p><div class="notice">Do not transfer money to any account. This demo does not accept payments yet.</div><form id="fundForm" style="margin-top:14px"><label>Amount (₦)<input id="fundAmount" type="number" min="100" placeholder="1000" required></label><button>Test Wallet Funding (demo)</button></form><div id="fundMsg"></div></div>
 </section>
 <section id="history" class="page"><h2>Transaction History</h2><div class="panel" id="historyList"><p class="muted">No transactions yet.</p></div></section>
-<footer>AMINU DATA & AIRTIME • Demo version</footer>
+<footer>AMINU DATA &amp; AIRTIME • Demo version</footer>
 </main>
 <script>
 let balance=0, transactions=[];
-function showPage(id){document.querySelectorAll('.page').forEach(p=>p.classList.toggle('active',p.id===id));document.querySelectorAll('nav button').forEach(b=>b.classList.toggle('active',b.dataset.page===id))}
-function addTx(label,amount){transactions.unshift({label,amount});document.getElementById('historyList').innerHTML=transactions.map(t=>`<div class="tx"><span>${t.label}</span><b>₦${t.amount.toLocaleString('en-NG')}</b></div>`).join('')||'<p class="muted">No transactions yet.</p>'}
-function updateBalance(){document.getElementById('balance').textContent='₦'+balance.toLocaleString('en-NG',{minimumFractionDigits:2})}
+function showPage(id){
+  document.querySelectorAll('.page').forEach(p=>p.classList.toggle('active',p.id===id));
+  document.querySelectorAll('nav button').forEach(b=>b.classList.toggle('active',b.dataset.page===id));
+}
+function addTx(label,amount){
+  transactions.unshift({label,amount});
+  document.getElementById('historyList').innerHTML=transactions.map(t=>`<div class="tx"><span>${t.label}</span><b>₦${t.amount.toLocaleString('en-NG')}</b></div>`).join('')||'<p class="muted">No transactions yet.</p>';
+}
+function updateBalance(){
+  document.getElementById('balance').textContent='₦'+balance.toLocaleString('en-NG',{minimumFractionDigits:2});
+}
 function validPhone(v){return /^0[789][01]\d{8}$/.test(v)}
-document.getElementById('fundForm').addEventListener('submit',e=>{e.preventDefault();let a=Number(document.getElementById('fundAmount').value);if(!Number.isFinite(a)||a<100){document.getElementById('fundMsg').textContent='Enter an amount of ₦100 or more.';return}balance+=a;updateBalance();addTx('Wallet funding (demo)',a);document.getElementById('fundMsg').textContent='Funds were added to the demo wallet only.';e.target.reset()});
-document.getElementById('dataForm').addEventListener('submit',e=>{e.preventDefault();let phone=document.getElementById('dphone').value,price=Number(document.getElementById('dplan').value),net=document.getElementById('dnet').value;if(!validPhone(phone)){document.getElementById('dataMsg').textContent='Check the phone number and enter a valid 11-digit number.';return}if(balance<price){document.getElementById('dataMsg').textContent='Insufficient wallet balance. This is a demo; try adding demo funds.';return}balance-=price;updateBalance();addTx(net+' Data to '+phone,price);document.getElementById('dataMsg').textContent='Your order was tested successfully. No real data was delivered.';e.target.reset()});
-document.getElementById('airForm').addEventListener('submit',e=>{e.preventDefault();let phone=document.getElementById('aphone').value,a=Number(document.getElementById('amount').value),net=document.getElementById('anet').value;if(!validPhone(phone)){document.getElementById('airMsg').textContent='Check the phone number.';return}if(!Number.isFinite(a)||a<50||a>50000){document.getElementById('airMsg').textContent='The amount must be between ₦50 and ₦50,000.';return}if(balance<a){document.getElementById('airMsg').textContent='Insufficient wallet balance.';return}balance-=a;updateBalance();addTx(net+' Airtime to '+phone,a);document.getElementById('airMsg').textContent='Your order was tested successfully. No real airtime was delivered.';e.target.reset()});
+document.getElementById('fundForm').addEventListener('submit',e=>{
+  e.preventDefault();
+  let a=Number(document.getElementById('fundAmount').value);
+  if(!Number.isFinite(a)||a<100){document.getElementById('fundMsg').textContent='Enter an amount of ₦100 or more.';return}
+  balance+=a;updateBalance();addTx('Wallet funding (demo)',a);
+  document.getElementById('fundMsg').textContent='Funds were added to the demo wallet only.';
+  e.target.reset();
+});
+document.getElementById('dataForm').addEventListener('submit',e=>{
+  e.preventDefault();
+  let phone=document.getElementById('dphone').value,price=Number(document.getElementById('dplan').value),net=document.getElementById('dnet').value;
+  if(!validPhone(phone)){document.getElementById('dataMsg').textContent='Check the phone number and enter a valid 11-digit number.';return}
+  if(balance<price){document.getElementById('dataMsg').textContent='Insufficient wallet balance. This is a demo; try adding demo funds.';return}
+  balance-=price;updateBalance();addTx(net+' Data to '+phone,price);
+  document.getElementById('dataMsg').textContent='Your order was tested successfully. No real data was delivered.';
+  e.target.reset();
+});
+document.getElementById('airForm').addEventListener('submit',e=>{
+  e.preventDefault();
+  let phone=document.getElementById('aphone').value,a=Number(document.getElementById('amount').value),net=document.getElementById('anet').value;
+  if(!validPhone(phone)){document.getElementById('airMsg').textContent='Check the phone number.';return}
+  if(!Number.isFinite(a)||a<50||a>50000){document.getElementById('airMsg').textContent='The amount must be between ₦50 and ₦50,000.';return}
+  if(balance<a){document.getElementById('airMsg').textContent='Insufficient wallet balance.';return}
+  balance-=a;updateBalance();addTx(net+' Airtime to '+phone,a);
+  document.getElementById('airMsg').textContent='Your order was tested successfully. No real airtime was delivered.';
+  e.target.reset();
+});
 </script>
-</body></html>
+</body>
+</html>
